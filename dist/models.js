@@ -34,3 +34,7 @@ function isPermissionStep(step) {
     return step.type.endsWith('_permission');
 }
 exports.isPermissionStep = isPermissionStep;
+function isCreatePermissionStep(step) {
+    return step.type.startsWith('create_') && step.type.endsWith('_permission');
+}
+exports.isCreatePermissionStep = isCreatePermissionStep;

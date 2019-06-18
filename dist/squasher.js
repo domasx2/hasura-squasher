@@ -76,10 +76,11 @@ function squash(options) {
                     _b = splitUpAndDown(files), upFiles = _b.up, downFiles = _b.down;
                     console.log("Found " + upFiles.length + " migrations to squash");
                     console.log('Squashing...');
-                    process = function (files) { return __awaiter(_this, void 0, void 0, function () {
+                    process = function (files, down) { return __awaiter(_this, void 0, void 0, function () {
                         return __generator(this, function (_a) {
-                            return [2 /*return*/, readMigrations(files)
+                            return [2 /*return*/, readMigrations(files, down)
                                     .then(deduplicateSteps)
+                                    .then(prunePermissions)
                                     .then(prettifySQL)
                                     .then(renderYaml)];
                         });
@@ -87,7 +88,7 @@ function squash(options) {
                     return [4 /*yield*/, process(upFiles)];
                 case 3:
                     up = _d.sent();
-                    return [4 /*yield*/, process(downFiles)];
+                    return [4 /*yield*/, process(downFiles, true)];
                 case 4:
                     down = _d.sent();
                     if (options.dry) {
@@ -204,8 +205,9 @@ function splitUpAndDown(filepaths) {
     };
 }
 exports.splitUpAndDown = splitUpAndDown;
-function readMigrations(files) {
+function readMigrations(files, down) {
     return __awaiter(this, void 0, void 0, function () {
+        var steps;
         var _this = this;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -229,14 +231,18 @@ function readMigrations(files) {
                             }
                         });
                     }); }))];
-                case 1: return [2 /*return*/, (_a.sent()).reduce(function (result, steps) { return result.concat(steps); }, [])];
+                case 1:
+                    steps = (_a.sent());
+                    if (down) {
+                        steps = steps.reverse();
+                    }
+                    return [2 /*return*/, steps.reduce(function (result, steps) { return result.concat(steps); }, [])];
             }
         });
     });
 }
 exports.readMigrations = readMigrations;
 function deduplicateSteps(steps) {
-    console.log('dedup', steps);
     // dedupe re-created permissions
     var markedForDelete = [];
     steps.forEach(function (step, stepIdx) {
@@ -337,3 +343,15 @@ function exportMetadata(projectDir) {
     return executeShell(projectDir, 'hasura metadata export');
 }
 exports.exportMetadata = exportMetadata;
+function prunePermissions(steps) {
+    return steps.map(function (step) {
+        console.log('p', step);
+        if (models_1.isCreatePermissionStep(step) && step.args.permission.localPresets) {
+            console.log('prune', step);
+            var newStep = __assign({}, step, { args: __assign({}, step.args, { permission: __assign({}, step.args.permission, { localPresets: step.args.permission.localPresets.filter(function (p) { return p.key || p.value; }) }) }) });
+            return newStep;
+        }
+        return step;
+    });
+}
+exports.prunePermissions = prunePermissions;

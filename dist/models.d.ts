@@ -47,13 +47,26 @@ export interface PermissionStep extends Step {
     type: PermissionType;
 }
 export declare function isPermissionStep(step: Step): step is PermissionStep;
+export declare function isCreatePermissionStep(step: Step): step is CreatePermissionStep;
 export interface DropPermissionStep extends Step {
     args: PermissionArgs;
     type: DropPermissionType;
 }
 export interface CreatePermissionStep extends Step {
     args: PermissionArgs & {
-        permission: unknown;
+        permission: {
+            check: unknown;
+            columns: string[];
+            localPresets?: Array<{
+                key: string;
+                value: string;
+            }>;
+            set: {
+                [key: string]: string;
+            };
+            limit?: unknown;
+            filter?: unknown;
+        };
     };
     type: CreatePermissionType;
 }

@@ -15,7 +15,7 @@ export declare function splitUpAndDown(filepaths: string[]): {
     up: string[];
     down: string[];
 };
-export declare function readMigrations(files: string[]): Promise<Step[]>;
+export declare function readMigrations(files: string[], down?: boolean): Promise<Step[]>;
 export declare function deduplicateSteps(steps: Step[]): Step[];
 export declare function prettifySQL(steps: Step[]): Step[];
 export declare function renderYaml(steps: Step[]): string;
@@ -24,3 +24,4 @@ export declare function migrateDown(projectDir: string, migrations: string[]): v
 export declare function migrateUp(projectDir: string, version: string): [string, string];
 export declare function deleteFiles(files: string[]): Promise<void[]>;
 export declare function exportMetadata(projectDir: string): [string, string];
+export declare function prunePermissions(steps: Step[]): Step[];
