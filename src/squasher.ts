@@ -185,7 +185,7 @@ export function deduplicateSteps(steps: Step[]): Step[] {
         if (isSQLStep(step) && steps.length) {
             const prev = steps[steps.length -1]
             if (isSQLStep(prev)) {
-                prev.args.sql += ' ' + step.args.sql
+                prev.args.sql += (prev.args.sql.endsWith(';') ?  ' ' : '; ') + step.args.sql
                 return steps
             }
         }
