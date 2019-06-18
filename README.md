@@ -1,7 +1,7 @@
 Hasura squasher
 =====================
 
-CLI tool to squash Hasura migrations into a single file. Also prettifies SQL, 
+CLI tool to squash Hasura (https://hasura.io/) migrations into a single file. Also prettifies SQL, 
 
 
 # Install
