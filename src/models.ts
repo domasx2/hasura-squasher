@@ -64,6 +64,10 @@ export function isPermissionStep(step: Step): step is PermissionStep {
     return step.type.endsWith('_permission')
 }
 
+export function isCreatePermissionStep(step: Step): step is CreatePermissionStep {
+    return step.type.startsWith('create_') && step.type.endsWith('_permission')
+}
+
 export interface DropPermissionStep extends Step {
     args: PermissionArgs
     type: DropPermissionType
@@ -71,7 +75,14 @@ export interface DropPermissionStep extends Step {
 
 export interface CreatePermissionStep extends Step {
     args: PermissionArgs & {
-        permission: unknown
+        permission: {
+            check: unknown,
+            columns: string[],
+            localPresets?: Array<{ key: string, value: string}>
+            set: { [key: string]: string },
+            limit?: unknown,
+            filter?: unknown
+        }
     },
     type: CreatePermissionType
 }

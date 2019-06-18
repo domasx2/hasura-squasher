@@ -1,7 +1,7 @@
 import { promises as fs, constants as fsConstants } from 'fs'
 import { exec } from 'shelljs'
 import path from 'path'
-import { Step, isPermissionStep, MigrationAction, isSQLStep, SQLStep } from './models'
+import { Step, isPermissionStep, MigrationAction, isSQLStep, SQLStep, isCreatePermissionStep, CreatePermissionStep } from './models'
 import yaml from 'js-yaml'
 import sqlFormatter from 'sql-formatter'
 
@@ -29,14 +29,15 @@ export async function squash(options: SquashOptions) {
     console.log(`Found ${upFiles.length} migrations to squash`)
 
     console.log('Squashing...')
-    const process = async (files: string[]) =>
-        readMigrations(files)
+    const process = async (files: string[], down?: boolean) =>
+        readMigrations(files, down)
         .then(deduplicateSteps)
+        .then(prunePermissions)
         .then(prettifySQL)
         .then(renderYaml)
 
     const up = await process(upFiles)
-    const down = await process(downFiles)
+    const down = await process(downFiles, true)
 
     if (options.dry) {
         return console.log(`UP:\n\n${up}\n\nDOWN:\n\n${down}\ngood to go!`)
@@ -119,8 +120,8 @@ export function splitUpAndDown(filepaths: string[]) {
     }
 }
 
-export async function readMigrations(files: string[]): Promise<Step[]> {
-    return (await Promise.all(files.map(async filepath => {
+export async function readMigrations(files: string[], down?: boolean): Promise<Step[]> {
+    let steps: Step[][] = (await Promise.all(files.map(async filepath => {
         const body = await fs.readFile(filepath, { encoding: 'utf-8'})
         if (filepath.endsWith('sql')) {
             const step: SQLStep = {
@@ -132,12 +133,16 @@ export async function readMigrations(files: string[]): Promise<Step[]> {
             return [step]
         }
         return yaml.safeLoad(body) as Step[]
-    }))).reduce((result, steps) => result.concat(steps), [])
+    })))
+
+    if (down) {
+        steps = steps.reverse()
+    }
+    
+    return steps.reduce((result, steps) => result.concat(steps), [])
 }
 
 export function deduplicateSteps(steps: Step[]): Step[] {
-
-    console.log('dedup', steps)
 
     // dedupe re-created permissions
     const markedForDelete: number[] = []
@@ -239,4 +244,25 @@ export async function deleteFiles(files: string[]) {
 }
 export function exportMetadata(projectDir: string) {
     return executeShell(projectDir, 'hasura metadata export')
+}
+
+export function prunePermissions(steps: Step[]): Step[] {
+    return steps.map(step => {
+        console.log('p', step)
+        if (isCreatePermissionStep(step) && step.args.permission.localPresets) {
+            console.log('prune', step)
+            const newStep: CreatePermissionStep = {
+                ...step,
+                args: {
+                    ...step.args,
+                    permission: {
+                        ...step.args.permission,
+                        localPresets: step.args.permission.localPresets.filter(p => p.key || p.value)
+                    }
+                }
+            }
+            return newStep
+        }
+        return step
+    })
 }
