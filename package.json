@@ -1,12 +1,16 @@
 {
   "name": "hasura-squasher",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "squash hasura migrations",
   "keywords": ["hasura", "migrations"],
   "main": "cli.js",
   "author": "Domas Lapinskas <domasx2@gmail.com>",
   "license": "MIT",
   "private": false,
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/domasx2/hasura-squasher"
+    },
   "scripts": {
     "squash": "TS_NODE_FILES=true ts-node ./cli.ts",
     "build": "tsc",
