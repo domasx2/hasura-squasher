@@ -1,0 +1,31 @@
+{
+  "name": "hasura-squasher",
+  "version": "1.0.0",
+  "description": "squash hasura migrations",
+  "main": "cli.js",
+  "author": "Domas Lapinskas <domas.lapinskas@sony.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "squash": "TS_NODE_FILES=true ts-node ./cli.ts",
+    "build": "tsc",
+    "prepack": "build"
+  },
+  "bin": {
+      "hasura-squasher": "./cli.js"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^3.12.1",
+    "@types/node": "^12.0.8",
+    "@types/shelljs": "^0.8.5",
+    "@types/yargs": "^13.0.0",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.2"
+  },
+  "dependencies": {
+    "js-yaml": "^3.13.1",
+    "shelljs": "^0.8.3",
+    "sql-formatter": "^2.3.3",
+    "yargs": "^13.2.4"
+  }
+}
