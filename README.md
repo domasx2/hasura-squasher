@@ -7,7 +7,7 @@ CLI tool to squash Hasura (https://hasura.io/) migrations into a single file. Al
 # Install
 
 ```sh
-npm install -g git+ssh://git@bitbucket.sec.sony.com:7999/cro/hasura-squasher.git
+npm install -g hasura-squasher
 ```
 
 # Usage
