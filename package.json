@@ -1,6 +1,6 @@
 {
   "name": "hasura-squasher",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "squash hasura migrations",
   "main": "cli.js",
   "author": "Domas Lapinskas <domas.lapinskas@sony.com>",
@@ -9,7 +9,7 @@
   "scripts": {
     "squash": "TS_NODE_FILES=true ts-node ./cli.ts",
     "build": "tsc",
-    "prepack": "build"
+    "prepack": "yarn build"
   },
   "bin": {
       "hasura-squasher": "./cli.js"

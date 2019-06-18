@@ -3,10 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var yargs_1 = __importDefault(require("yargs"));
-var squasher_1 = require("./squasher");
+const yargs_1 = __importDefault(require("yargs"));
+const squasher_1 = require("./squasher");
 function exit(error) {
-    console.error("ERROR: " + error);
+    console.error(`ERROR: ${error}`);
     process.exit(1);
 }
 function runCmd() {
@@ -28,11 +28,11 @@ function runCmd() {
         return exit("argument for [starting] must be a number");
     }
     squasher_1.squash(argv)
-        .then(function () {
+        .then(() => {
         console.log('Squash done!');
         process.exit(0);
     })
-        .catch(function (e) {
+        .catch((e) => {
         exit(e.message);
     });
 }

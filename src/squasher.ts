@@ -248,9 +248,7 @@ export function exportMetadata(projectDir: string) {
 
 export function prunePermissions(steps: Step[]): Step[] {
     return steps.map(step => {
-        console.log('p', step)
         if (isCreatePermissionStep(step) && step.args.permission.localPresets) {
-            console.log('prune', step)
             const newStep: CreatePermissionStep = {
                 ...step,
                 args: {
