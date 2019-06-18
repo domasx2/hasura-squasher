@@ -1,6 +1,6 @@
 {
   "name": "hasura-squasher",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "squash hasura migrations",
   "keywords": ["hasura", "migrations"],
   "main": "cli.js",
