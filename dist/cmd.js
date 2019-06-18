@@ -17,7 +17,7 @@ function runCmd() {
         .boolean('dry')
         .describe('dry', 'dry run, print out migrations w/o applying')
         .string('name')
-        .describe('name', 'name of the aggregate migration')
+        .describe('name', 'name of the aggregate migration. Or "replace" to squash to first migration')
         .string('dir')
         .describe('dir', 'hasura project directory')
         .default('dir', './')

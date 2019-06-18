@@ -13,8 +13,11 @@ npm install -g git+ssh://git@bitbucket.sec.sony.com:7999/cro/hasura-squasher.git
 # Usage
 
 ```sh
-# assuming cwd is a hasura project, squash uncommited migrations to a single file
+# assuming cwd is a hasura project, squash uncommited migrations to a migration named "bar_table"
 hasura-squasher --name bar_table
+
+# squash to first existing migration file
+hasura-squasher --name replace
 
 # squash starting with sepcific migration
 hasura-squasher --starting 1558366677954

@@ -48,12 +48,20 @@ export async function squash(options: SquashOptions) {
 
     console.log('Deleting existing migrations...')
     deleteFiles([...upFiles, ...downFiles])
-    const [version, upfile, downfile] = createMigration(projectRoot, options.name)
-    console.log(`Created ${upfile}, ${downfile}`)
+    const [version, upfile, downfile]: [string, string, string] = (() => {
+        if (options.name === 'replace') {
+            console.log(`Gonna update ${upFiles[0]}, ${downFiles[0]}`)
+            return [path.basename(upFiles[0]).split('_')[0], upFiles[0], downFiles[0]] as [string, string, string]
+        } else {
+            const retv =  createMigration(projectRoot, options.name)
+            console.log(`Created ${retv[1]}, ${retv[2]}`)
+            return retv as [string, string, string]
+        }
+    })()
     console.log('Writing new migrations...')
     await fs.writeFile(upfile, up)
     await fs.writeFile(downfile, down)
-    console.log('Migrating back up')
+    console.log(`Migrating up ${version}`)
     migrateUp(projectRoot, version)
     console.log('Exporting metadata...')
     exportMetadata(projectRoot)

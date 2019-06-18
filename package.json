@@ -1,6 +1,6 @@
 {
   "name": "hasura-squasher",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "squash hasura migrations",
   "main": "cli.js",
   "author": "Domas Lapinskas <domas.lapinskas@sony.com>",

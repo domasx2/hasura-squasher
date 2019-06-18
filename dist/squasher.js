@@ -46,12 +46,21 @@ function squash(options) {
         migrateDown(projectRoot, upFiles);
         console.log('Deleting existing migrations...');
         deleteFiles([...upFiles, ...downFiles]);
-        const [version, upfile, downfile] = createMigration(projectRoot, options.name);
-        console.log(`Created ${upfile}, ${downfile}`);
+        const [version, upfile, downfile] = (() => {
+            if (options.name === 'replace') {
+                console.log(`Gonna update ${upFiles[0]}, ${downFiles[0]}`);
+                return [path_1.default.basename(upFiles[0]).split('_')[0], upFiles[0], downFiles[0]];
+            }
+            else {
+                const retv = createMigration(projectRoot, options.name);
+                console.log(`Created ${retv[1]}, ${retv[2]}`);
+                return retv;
+            }
+        })();
         console.log('Writing new migrations...');
         yield fs_1.promises.writeFile(upfile, up);
         yield fs_1.promises.writeFile(downfile, down);
-        console.log('Migrating back up');
+        console.log(`Migrating up ${version}`);
         migrateUp(projectRoot, version);
         console.log('Exporting metadata...');
         exportMetadata(projectRoot);
