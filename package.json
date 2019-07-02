@@ -1,8 +1,9 @@
 {
   "name": "hasura-squasher",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "squash hasura migrations",
   "keywords": ["hasura", "migrations"],
+  "files": ["dist/*"],
   "main": "cli.js",
   "author": "Domas Lapinskas <domasx2@gmail.com>",
   "license": "MIT",
