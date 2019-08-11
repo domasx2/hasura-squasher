@@ -13,7 +13,8 @@ export interface SquashOptions {
     starting?: string,
     dry?: boolean,
     name: string,
-    dir: string
+    dir: string,
+    'export-metadata': boolean
 }
 
 export async function squash(options: SquashOptions) {
@@ -63,8 +64,10 @@ export async function squash(options: SquashOptions) {
     await fs.writeFile(downfile, down)
     console.log(`Migrating up ${version}`)
     migrateUp(projectRoot, version)
-    console.log('Exporting metadata...')
-    exportMetadata(projectRoot)
+    if (options['export-metadata']) {
+      console.log('Exporting metadata...')
+      exportMetadata(projectRoot)
+    }
     console.log('happy end :-)')
 }
 
@@ -215,9 +218,7 @@ export function renderYaml(steps: Step[]): string {
 
 // this one will be brittle as f, this output is not intended to be parsed..
 export function createMigration(projectDir: string, name: string): [string, string, string] { // version, up filename, down filename
-    const [_, stderr] = executeShell(projectDir, `hasura migrate create '${name}'`)
-    const parts = stderr.split('=')
-    const version = parts[parts.length - 1].replace('\n', '')
+    const version = String(new Date().getTime())
     return [
         version,
         path.join(projectDir, HASURA_MIGRATIONS_FOLDER, `${version}_${name}.up.yaml`),

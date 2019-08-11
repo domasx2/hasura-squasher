@@ -28,6 +28,9 @@ hasura-squasher --name bar_table --dir ~/my-hasura-project
 # print out resulting migration w/o making any changes
 hasura-squasher --name bar_table --dry
 
+# export metadata.json to migrations dir when finished
+hasura-squasher --name replace --export-metadata
+
 # print help
 hasura-squasher --help
 ```

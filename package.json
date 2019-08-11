@@ -1,37 +1,42 @@
 {
   "name": "hasura-squasher",
-  "version": "1.0.7",
+  "version": "1.1.0",
   "description": "squash hasura migrations",
-  "keywords": ["hasura", "migrations"],
-  "files": ["dist/*"],
+  "keywords": [
+    "hasura",
+    "migrations"
+  ],
+  "files": [
+    "dist/*"
+  ],
   "main": "cli.js",
   "author": "Domas Lapinskas <domasx2@gmail.com>",
   "license": "MIT",
   "private": false,
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/domasx2/hasura-squasher"
-    },
+    "type": "git",
+    "url": "https://github.com/domasx2/hasura-squasher"
+  },
   "scripts": {
     "squash": "TS_NODE_FILES=true ts-node ./cli.ts",
     "build": "tsc",
     "prepack": "yarn build"
   },
   "bin": {
-      "hasura-squasher": "./cli.js"
+    "hasura-squasher": "./cli.js"
   },
   "devDependencies": {
     "@types/js-yaml": "^3.12.1",
-    "@types/node": "^12.0.8",
+    "@types/node": "^12.7.1",
     "@types/shelljs": "^0.8.5",
-    "@types/yargs": "^13.0.0",
+    "@types/yargs": "^13.0.2",
     "ts-node": "^8.3.0",
-    "typescript": "^3.5.2"
+    "typescript": "^3.5.3"
   },
   "dependencies": {
     "js-yaml": "^3.13.1",
     "shelljs": "^0.8.3",
     "sql-formatter": "^2.3.3",
-    "yargs": "^13.2.4"
+    "yargs": "^13.3.0"
   }
 }

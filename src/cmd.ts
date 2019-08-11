@@ -21,6 +21,9 @@ export function runCmd() {
         .describe('dir', 'hasura project directory')
         .default('dir', './')
         .demandOption('name')
+        .boolean('export-metadata')
+        .describe('export-metadata', 'export metadata when finished')
+        .default('export-metadata', false)
         .help()
         .argv
 
