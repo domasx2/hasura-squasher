@@ -19,7 +19,7 @@ hasura-squasher --name bar_table
 # squash to first existing migration file
 hasura-squasher --name replace
 
-# squash starting with sepcific migration
+# squash starting with specific migration
 hasura-squasher --starting 1558366677954
 
 # explicitly specify hasura project dir
