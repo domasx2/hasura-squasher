@@ -1,6 +1,6 @@
 {
   "name": "hasura-squasher",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "squash hasura migrations",
   "keywords": [
     "hasura",
@@ -27,17 +27,17 @@
   },
   "devDependencies": {
     "@types/js-yaml": "^3.12.1",
-    "@types/node": "^12.7.1",
+    "@types/node": "^12.7.12",
     "@types/shelljs": "^0.8.5",
-    "@types/yargs": "^13.0.2",
-    "ts-node": "^8.3.0",
-    "typescript": "^3.5.3"
+    "@types/yargs": "^13.0.3",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.3"
   },
   "dependencies": {
     "js-yaml": "^3.13.1",
     "shelljs": "^0.8.3",
     "sql-formatter": "^2.3.3",
-    "yargs": "^13.3.0"
+    "yargs": "^14.2.0"
   },
   "resolutions": {
     "lodash": "^4.17.13"

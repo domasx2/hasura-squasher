@@ -201,6 +201,10 @@ export function deduplicateSteps(steps: Step[]): Step[] {
 export function prettifySQL(steps: Step[]): Step[] {
     return steps.map(step => {
         if (isSQLStep(step)) {
+            const sql = step.args.sql
+            if (sql.toLowerCase().includes('create function')) {
+                return step
+            }
             return {
                 ...step,
                 args: {
